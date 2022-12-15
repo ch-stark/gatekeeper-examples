@@ -3,6 +3,8 @@
 apiVersion: v1
 kind: ResourceQuota
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -27,6 +29,7 @@ apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
   labels:
     app: 'gatekeeper'
@@ -64,6 +67,8 @@ spec:
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -88,6 +93,8 @@ spec:
 apiVersion: v1
 kind: ServiceAccount
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -102,7 +109,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   annotations:
-    {}
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -116,6 +123,8 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   creationTimestamp: null
   labels:
     app: 'gatekeeper'
@@ -281,6 +290,8 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -301,7 +312,8 @@ subjects:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  creationTimestamp: null
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -335,6 +347,8 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -356,6 +370,8 @@ subjects:
 apiVersion: v1
 kind: Service
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -365,7 +381,6 @@ metadata:
   name: gatekeeper-webhook-service
   namespace: 'gatekeeper-system'
 spec:
-  
   ports:
   - name: https-webhook-server
     port: 443
@@ -383,6 +398,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -526,6 +543,8 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -679,6 +698,8 @@ spec:
 apiVersion: admissionregistration.k8s.io/v1
 kind: MutatingWebhookConfiguration
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -721,6 +742,8 @@ webhooks:
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
   labels:
     app: 'gatekeeper'
     chart: 'gatekeeper'
@@ -808,6 +831,7 @@ metadata:
     release: gatekeeper
     heritage: Helm
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
@@ -822,6 +846,7 @@ metadata:
   name: gatekeeper-admin-upgrade-crds
   namespace: 'gatekeeper-system'
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: "hook-succeeded,before-hook-creation"
     helm.sh/hook-weight: "1"
@@ -835,6 +860,7 @@ metadata:
     release: gatekeeper
     heritage: Helm
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: "hook-succeeded,before-hook-creation"
     helm.sh/hook-weight: "1"
@@ -852,6 +878,7 @@ metadata:
     release: gatekeeper
     heritage: Helm
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-delete-policy: "hook-succeeded,before-hook-creation"
     helm.sh/hook-weight: "1"
@@ -873,6 +900,7 @@ metadata:
     release: gatekeeper
     heritage: Helm
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
@@ -897,6 +925,7 @@ metadata:
     release: gatekeeper
     heritage: Helm
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
@@ -921,6 +950,7 @@ metadata:
     heritage: 'Helm'
     release: 'gatekeeper'
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "-5"
     "helm.sh/hook-delete-policy": hook-succeeded,before-hook-creation
@@ -1004,6 +1034,7 @@ metadata:
     heritage: Helm
     release: gatekeeper
   annotations:
+    argocd.argoproj.io/sync-wave: "-1" 
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "1"
     helm.sh/hook-delete-policy: "hook-succeeded,before-hook-creation"
