@@ -349,6 +349,21 @@ rules:
   - patch
   - update
   - watch
+- apiGroups:
+  - security.openshift.io
+  resourceNames:
+    - anyuid
+  resources:
+    - securitycontextconstraints
+  verbs:
+    - use
+  - security.openshift.io
+  resourceNames:
+    - anyuid
+  resources:
+    - securitycontextconstraints
+  verbs:
+    - use  
 ---
 # Source: gatekeeper/templates/gatekeeper-manager-rolebinding-rolebinding.yaml
 apiVersion: rbac.authorization.k8s.io/v1
