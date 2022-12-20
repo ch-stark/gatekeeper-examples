@@ -20,6 +20,6 @@ policies:
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
-  - name: policy-applycontraint
+  - name: policy-applyconstraint
     manifests:
       - path: gatekeeperconstraint     
