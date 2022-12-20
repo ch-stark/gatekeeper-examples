@@ -11,6 +11,9 @@ policyDefaults:
   remediationAction: inform
   severity: medium
 policies:
+  - name: policy-gatekeeperlibrary
+    manifests:
+      - path: gatekeeperlibrary
   - name: policy-installgatekeeper
     manifests:
       - path: gatekeeperinstall
