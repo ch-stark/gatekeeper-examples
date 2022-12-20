@@ -1,37 +1,25 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: demo-policy-generator
+  name: install-gatekeeper
 placementBindingDefaults:
-  name: demo-placement-binding
+  name: gatekeeper-placement-binding
 policyDefaults:
   namespace: policies
   placement:
-    name: demo-placement-rule
-    clusterSelectors:
-      name: local-cluster
+    name: gatekeeper-placement
   remediationAction: inform
   severity: medium
 policies:
-  - name: policy-app
+  - name: policy-installgatekeeper
     manifests:
-      - path: policy1_deployment
-        patches:
-          - apiVersion: apps/v1
-            kind: Deployment
-            metadata:
-              name: gitops-demo
-              namespace: gitops-demo
-            spec:
-              template:
-                spec:
-                  containers:
-                    - name: gitops-demo
-                      image: quay.io/centos7/httpd-24-centos7:2.4
-  - name: policy-gatekeeper-require-labels
-    consolidateManifests: false
+      - path: gatekeeperinstall
+  - name: policy-configure-gatekeeper
     manifests:
-      - path: policy2_gatekeeper/gatekeeper.yaml
-  - name: policy-kyverno-require-labels
+      - path: gatekeeperconfig
+  - name: policy-check-gatekeeper
     manifests:
-      - path: policy3_kyverno/kyverno.yaml
+      - path: gatekeeperchecks
+  - name: policy-applycontraint
+    manifests:
+      - path: gatekeeperconstraint     
