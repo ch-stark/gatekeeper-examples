@@ -2,3 +2,5 @@ generators:
   - policyGenerator.yaml
 commonLabels:
   env: prod
+commonAnnotations:
+  argocd.argoproj.io/compare-options: IgnoreExtraneous
