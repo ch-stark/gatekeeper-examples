@@ -13,4 +13,4 @@ policyDefaults:
 policies:
   - name: setupgitops
     manifests:
-      - path: gatekeeperlibrary
+      - path: setupgitops
