@@ -17,12 +17,29 @@ policies:
   - name: policy-installgatekeeper
     manifests:
       - path: gatekeeperinstall
+    dependencies:
+    - name: "policy-gatekeeperlibrary"
+      compliance: "Compliant"
+      kind: "Policy"
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
+    dependencies:
+    - name: "policy-installgatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
-  - name: policy-applyconstraint
+    dependencies:
+    - name: "policy-configure-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"      
+  - name: policy-applyconstraints
     manifests:
-      - path: gatekeeperconstraint     
+      - path: gatekeeperconstraint
+    dependencies:
+    - name: "policy-configure-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
+   
