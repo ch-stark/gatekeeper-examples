@@ -35,6 +35,7 @@ spec:
     logLevel: INFO
     replicas: 2
 ---
+apiVersion: v1
 kind: Pod
 metadata:
   namespace: openshift-gatekeeper-system
