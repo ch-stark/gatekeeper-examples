@@ -32,7 +32,7 @@ policies:
     manifests:
       - path: gatekeeperlibrary
     dependencies:
-    - name: "policy-gatekeeperlibrary"
+    - name: "policy-configure-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
     - name: "policy-check-gatekeeper"
