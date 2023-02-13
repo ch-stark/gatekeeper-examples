@@ -42,7 +42,7 @@ policies:
     manifests:
       - path: gatekeeperconstraint
     dependencies:
-    - name: "policy-configure-gatekeeper"
+    - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
    
