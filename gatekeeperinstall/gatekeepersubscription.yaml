@@ -27,7 +27,7 @@ spec:
   audit:
     auditChunkSize: 500
     logLevel: INFO
-  replicas: 1
+    replicas: 1
   validatingWebhook: Enabled
   mutatingWebhook: Enabled
   webhook:
