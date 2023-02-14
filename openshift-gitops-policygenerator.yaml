@@ -21,6 +21,11 @@ spec:
         metadata:
           name: openshift-gitops-policygenerator
         spec:
+          dependencies:
+            - name: openshift-gitops-policygenerator
+              apiVersion: policy.open-cluster-management.io/v1
+              compliance: Compliant
+              kind: Policy        
           remediationAction: inform
           severity: medium
           object-templates:
