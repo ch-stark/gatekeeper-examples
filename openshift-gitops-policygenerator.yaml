@@ -13,7 +13,7 @@ spec:
   - apiVersion: policy.open-cluster-management.io/v1
     compliance: Compliant
     kind: Policy
-    name: upstream-compliance-operator
+    name: openshift-gitops-installed
   policy-templates:
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
