@@ -9,6 +9,11 @@ metadata:
 spec:
   remediationAction: inform
   disabled: false
+  dependencies:
+  - apiVersion: policy.open-cluster-management.io/v1
+    compliance: Compliant
+    kind: Policy
+    name: upstream-compliance-operator
   policy-templates:
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
