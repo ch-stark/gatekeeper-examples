@@ -1,7 +1,7 @@
 apiVersion: policy.open-cluster-management.io/v1
 kind: Policy
 metadata:
-  name: gatekeeper-application
+  name: policy-gatekeeper-application
   namespace: default
   annotations:
     policy.open-cluster-management.io/categories: CM Configuration Management
@@ -9,12 +9,17 @@ metadata:
     policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
 spec:
   disabled: false
+  dependencies:
+  - apiVersion: policy.open-cluster-management.io/v1
+    compliance: Compliant
+    kind: Policy
+    name: openshift-gitops-policygenerator
   policy-templates:
     - objectDefinition:
         apiVersion: policy.open-cluster-management.io/v1
         kind: ConfigurationPolicy
         metadata:
-          name: policy-namespace
+          name: policy-application-gatekeeper
         spec:
           remediationAction: inform
           severity: low
