@@ -35,12 +35,12 @@ spec:
                 kind: Application
                 metadata:
                   name: policiesgatekeeper
-                  namespace: policies
+                  namespace: openshift-gitops
                 spec:
                   destination:
-                    namespace: policies
+                    namespace: openshift-gitops
                     server: https://kubernetes.default.svc
-                  project: policies
+                  project: default
                   source:
                     path: .
                     repoURL: https://github.com/ch-stark/gatekeeper-examples
