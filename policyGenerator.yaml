@@ -8,13 +8,12 @@ policyDefaults:
   namespace: policies
   placement:
     name: gatekeeper-placement
-  remediationAction: inform
+  remediationAction: enforce
   severity: medium
 policies:
   - name: policy-installgatekeeper
     manifests:
       - path: gatekeeperinstall
-    remediationAction: inform 
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
