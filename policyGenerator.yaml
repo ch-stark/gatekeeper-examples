@@ -11,16 +11,9 @@ policyDefaults:
   remediationAction: enforce
   severity: medium
 policies:
-  - name: policy-installgatekeeper
-    manifests:
-      - path: gatekeeperinstall
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
-    dependencies:
-    - name: "policy-installgatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
     remediationAction: enforce    
   - name: policy-check-gatekeeper
     manifests:
