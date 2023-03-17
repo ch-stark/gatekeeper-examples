@@ -10,8 +10,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: blog
-    repoURL: https://github.com/ch-stark/argocdpoliciesblog
+    path: automatic
+    repoURL: https://github.com/stolostron/test-50-observability
     targetRevision: HEAD
   syncPolicy:
     syncOptions:
