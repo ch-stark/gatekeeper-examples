@@ -31,8 +31,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: policygenerator/policy-sets/stable/acm-hardening
-    repoURL: https://github.com/ch-stark/policy-collection
+    path: .
+    repoURL: https://github.com/bry-tam/acm-policy-samples
     targetRevision: HEAD
   syncPolicy:
     syncOptions:
