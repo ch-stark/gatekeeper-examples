@@ -6,9 +6,9 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: policies
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
-  project: policies
+  project: default
   source:
     path: blog
     repoURL: https://github.com/ch-stark/argocdpoliciesblog
@@ -27,9 +27,9 @@ metadata:
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: policies
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
-  project: policies
+  project: default
   source:
     path: policygenerator/policy-sets/stable/acm-hardening
     repoURL: https://github.com/ch-stark/policy-collection
