@@ -12,10 +12,10 @@ policyDefaults:
   severity: medium
   ignorePending: true
 policies:
-   - name: policy-install-gatekeeper
-     manifests:
+  - name: policy-install-gatekeeper
+    manifests:
       - path: gatekeeperinstall
-     remediationAction: enforce
+    remediationAction: enforce
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
