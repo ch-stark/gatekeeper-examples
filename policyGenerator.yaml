@@ -7,7 +7,7 @@ placementBindingDefaults:
 policyDefaults:
   namespace: policies
   placement:
-    name: gatekeeper-placement
+    placementName: gatekeeper-placement
   remediationAction: enforce
   severity: medium
   ignorePending: true
