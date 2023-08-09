@@ -17,9 +17,6 @@ subjects:
   name: policy-install-gatekeeper
 - apiGroup: policy.open-cluster-management.io
   kind: Policy
-  name: policy-configure-gatekeeper
-- apiGroup: policy.open-cluster-management.io
-  kind: Policy
   name: policy-check-gatekeeper
 - apiGroup: policy.open-cluster-management.io
   kind: Policy
@@ -59,35 +56,49 @@ spec:
         object-templates:
         - complianceType: musthave
           objectDefinition:
-            apiVersion: constraints.gatekeeper.sh/v1beta1
-            kind: K8sRequiredAnnotations
+            apiVersion: templates.gatekeeper.sh/v1
+            kind: ConstraintTemplate
             metadata:
-              name: must-be-deployed-by-argocd
+              annotations:
+                description: Restricts any ArgoCD Applications to be created in default
+                  ArgoCD project
+              name: k8snoappindefaultargoproject
+            spec:
+              crd:
+                spec:
+                  names:
+                    kind: K8sNoAppInDefaultArgoProject
+              targets:
+              - rego: |
+                  package k8snoappindefaultargoproject
+                  violation[{"msg": def_msg}] {
+                    name := input.review.object.metadata.name
+                    mySpec := input.review.object.spec
+                    mySpec.project == "default"
+                    def_msg := sprintf("Error: `%v` ArgoCD Application is not permitted to use default ArgoCD project.",[name])
+                  }
+                target: admission.k8s.gatekeeper.sh
+        - complianceType: musthave
+          objectDefinition:
+            apiVersion: constraints.gatekeeper.sh/v1beta1
+            kind: K8sNoAppInDefaultArgoProject
+            metadata:
+              name: no-app-in-default-argo-project
             spec:
               enforcementAction: deny
               match:
                 kinds:
                 - apiGroups:
-                  - ""
+                  - argoproj.io/v1alpha1
                   kinds:
-                  - ReplicaSet
-                  - Deployment
-                  - Rollout
-                namespaces:
-                - '*'
-              parameters:
-                annotations:
-                - allowedRegex: ^[a-zA-Z0-9-]+:.+$
-                  key: argocd.argoproj.io/tracking-id
-                message: All resources must have a `argocd.argoproj.io/tracking-id`
-                  annotation.
+                  - Application
         remediationAction: enforce
         severity: medium
   - objectDefinition:
       apiVersion: policy.open-cluster-management.io/v1
       kind: ConfigurationPolicy
       metadata:
-        name: inform-gatekeeper-audit-must-be-deployed-by-argocd
+        name: inform-gatekeeper-audit-no-app-in-default-argo-project
       spec:
         namespaceSelector:
           exclude:
@@ -98,9 +109,9 @@ spec:
         - complianceType: musthave
           objectDefinition:
             apiVersion: constraints.gatekeeper.sh/v1beta1
-            kind: K8sRequiredAnnotations
+            kind: K8sNoAppInDefaultArgoProject
             metadata:
-              name: must-be-deployed-by-argocd
+              name: no-app-in-default-argo-project
             status:
               totalViolations: 0
         remediationAction: inform
@@ -109,7 +120,7 @@ spec:
       apiVersion: policy.open-cluster-management.io/v1
       kind: ConfigurationPolicy
       metadata:
-        name: inform-gatekeeper-admission-must-be-deployed-by-argocd
+        name: inform-gatekeeper-admission-no-app-in-default-argo-project
       spec:
         namespaceSelector:
           exclude:
@@ -121,8 +132,8 @@ spec:
           objectDefinition:
             annotations:
               constraint_action: deny
-              constraint_kind: K8sRequiredAnnotations
-              constraint_name: must-be-deployed-by-argocd
+              constraint_kind: K8sNoAppInDefaultArgoProject
+              constraint_name: no-app-in-default-argo-project
               event_type: violation
             apiVersion: v1
             kind: Event
@@ -142,12 +153,6 @@ metadata:
   name: policy-check-gatekeeper
   namespace: policies
 spec:
-  dependencies:
-  - apiVersion: policy.open-cluster-management.io/v1
-    compliance: Compliant
-    kind: Policy
-    name: policy-configure-gatekeeper
-    namespace: policies
   disabled: false
   policy-templates:
   - ignorePending: true
@@ -165,7 +170,7 @@ spec:
             metadata:
               labels:
                 control-plane: audit-controller
-              namespace: openshift-gatekeeper-system
+              namespace: gatekeeper-system
             status:
               phase: Running
         - complianceType: musthave
@@ -175,154 +180,9 @@ spec:
             metadata:
               labels:
                 control-plane: controller-manager
-              namespace: openshift-gatekeeper-system
+              namespace: gatekeeper-system
             status:
               phase: Running
-        remediationAction: enforce
-        severity: medium
-  remediationAction: enforce
----
-apiVersion: policy.open-cluster-management.io/v1
-kind: Policy
-metadata:
-  annotations:
-    argocd.argoproj.io/compare-options: IgnoreExtraneous
-    policy.open-cluster-management.io/categories: CM Configuration Management
-    policy.open-cluster-management.io/controls: CM-2 Baseline Configuration
-    policy.open-cluster-management.io/standards: NIST SP 800-53
-  labels:
-    env: prod
-  name: policy-configure-gatekeeper
-  namespace: policies
-spec:
-  dependencies:
-  - apiVersion: policy.open-cluster-management.io/v1
-    compliance: Compliant
-    kind: Policy
-    name: policy-install-gatekeeper
-    namespace: policies
-  disabled: false
-  policy-templates:
-  - ignorePending: true
-    objectDefinition:
-      apiVersion: policy.open-cluster-management.io/v1
-      kind: ConfigurationPolicy
-      metadata:
-        name: policy-configure-gatekeeper
-      spec:
-        object-templates:
-        - complianceType: musthave
-          objectDefinition:
-            apiVersion: operator.gatekeeper.sh/v1alpha1
-            kind: Gatekeeper
-            metadata:
-              name: gatekeeper
-            spec:
-              audit:
-                auditChunkSize: 500
-                logLevel: INFO
-                replicas: 1
-              mutatingWebhook: Enabled
-              validatingWebhook: Enabled
-              webhook:
-                emitAdmissionEvents: Enabled
-                logLevel: INFO
-                replicas: 2
-        - complianceType: musthave
-          objectDefinition:
-            apiVersion: config.gatekeeper.sh/v1alpha1
-            kind: Config
-            metadata:
-              name: config
-              namespace: openshift-gatekeeper-system
-            spec:
-              match:
-              - excludedNamespaces:
-                - ansible-automation-platform
-                - hive
-                - kube-node-lease
-                - kube-public
-                - kube-storage-version-migrator-operator
-                - kube-system
-                - local-quay
-                - multicluster-engine
-                - open-cluster-management
-                - open-cluster-management-addon-observability
-                - open-cluster-management-agent
-                - open-cluster-management-agent-addon
-                - open-cluster-management-hub
-                - open-cluster-management-observability
-                - openshift
-                - openshift-apiserver
-                - openshift-apiserver-operator
-                - openshift-authentication
-                - openshift-authentication-operator
-                - openshift-cloud-controller-manager-operator
-                - openshift-cloud-credential-operator
-                - openshift-cloud-network-config-controller
-                - openshift-cluster-csi-drivers
-                - openshift-cluster-machine-approver
-                - openshift-cluster-node-tuning-operator
-                - openshift-cluster-samples-operator
-                - openshift-cluster-storage-operator
-                - openshift-cluster-version
-                - openshift-compliance
-                - openshift-config
-                - openshift-config-managed
-                - openshift-config-operator
-                - openshift-console
-                - openshift-console-operator
-                - openshift-console-user-settings
-                - openshift-controller-manager
-                - openshift-controller-manager-operator
-                - openshift-dns
-                - openshift-dns-operator
-                - openshift-dr-system
-                - openshift-etcd
-                - openshift-etcd-operator
-                - openshift-gatekeeper-operator
-                - openshift-gatekeeper-system
-                - openshift-gitops
-                - openshift-image-registry
-                - openshift-infra
-                - openshift-ingress
-                - openshift-ingress-canary
-                - openshift-ingress-operator
-                - openshift-insights
-                - openshift-kni-infra
-                - openshift-kube-apiserver
-                - openshift-kube-apiserver-operator
-                - openshift-kube-controller-manager
-                - openshift-kube-controller-manager-operator
-                - openshift-kube-scheduler
-                - openshift-kube-scheduler-operator
-                - openshift-kube-storage-version-migrator
-                - openshift-kube-storage-version-migrator-operator
-                - openshift-kubevirt-infra
-                - openshift-machine-api
-                - openshift-machine-config-operator
-                - openshift-marketplace
-                - openshift-monitoring
-                - openshift-multus
-                - openshift-network-diagnostics
-                - openshift-network-operator
-                - openshift-node
-                - openshift-oauth-apiserver
-                - openshift-openstack-infra
-                - openshift-operators
-                - openshift-operator-lifecycle-manager
-                - openshift-ovirt-infra
-                - openshift-ovn-kubernetes
-                - openshift-sdn
-                - openshift-service-ca
-                - openshift-service-ca-operator
-                - openshift-storage
-                - openshift-user-workload-monitoring
-                - openshift-vsphere-infra
-                - rhacs-operator
-                - stackrox
-                processes:
-                - '*'
         remediationAction: enforce
         severity: medium
   remediationAction: enforce

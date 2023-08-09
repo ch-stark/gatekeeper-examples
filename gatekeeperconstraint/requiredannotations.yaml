@@ -1,21 +1,34 @@
 ---
-# Require applications deploy with ArgoProj, ex demo-accept-app:/Service:secure/summer-k8s-service-canary
-# To use this, set Argo CD tracking method to annotation or annotation+label. https://argo-cd.readthedocs.io/en/stable/user-guide/resource_tracking/
-apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sRequiredAnnotations
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
 metadata:
-  name: must-be-deployed-by-argocd
+  name: k8snoappindefaultargoproject
+  annotations:
+    description: >-
+      Restricts any ArgoCD Applications to be created in default ArgoCD project
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sNoAppInDefaultArgoProject
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8snoappindefaultargoproject
+        violation[{"msg": def_msg}] {
+          name := input.review.object.metadata.name
+          mySpec := input.review.object.spec
+          mySpec.project == "default"
+          def_msg := sprintf("Error: `%v` ArgoCD Application is not permitted to use default ArgoCD project.",[name])
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sNoAppInDefaultArgoProject
+metadata:
+  name: no-app-in-default-argo-project
 spec:
   enforcementAction: deny
   match:
-    namespaces:
-      - "*"
     kinds:
-      - apiGroups: [""]
-        kinds: ["ReplicaSet", "Deployment", "Rollout"]
-  parameters:
-    message: "All resources must have a `argocd.argoproj.io/tracking-id` annotation."
-    annotations:
-      - key: argocd.argoproj.io/tracking-id
-        # Matches annotation format
-        allowedRegex: ^[a-zA-Z0-9-]+:.+$
+      - apiGroups: ["argoproj.io/v1alpha1"]
+        kinds: ["Application"]

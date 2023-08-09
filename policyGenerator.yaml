@@ -16,21 +16,9 @@ policies:
     manifests:
       - path: gatekeeperinstall
     remediationAction: enforce
-  - name: policy-configure-gatekeeper
-    manifests:
-      - path: gatekeeperconfig
-    remediationAction: enforce
-    dependencies:
-    - name: "policy-install-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"     
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
-    dependencies:
-    - name: "policy-configure-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"      
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
