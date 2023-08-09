@@ -13,6 +13,9 @@ policyDefaults:
   severity: medium
   ignorePending: true
 policies:
+  - name: setupgitops
+    manifests:
+      - path: setupgitops 
   - name: policy-install-gatekeeper
     manifests:
       - path: gatekeeperinstall
@@ -37,4 +40,5 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+   
    
