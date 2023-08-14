@@ -42,9 +42,6 @@ policies:
       kind: "Policy"
   - name: gp-valid-apideprecation
     remediationAction: enforce
-    dependencies:
-      - name: "gatekeeper-operator"
-        compliance: "Compliant"
     manifests:
       - path: verify-deprecatedapi/constrainttemplate.yml
       - path: verify-deprecatedapi/verifydeprecatedapi-1.16.yml
