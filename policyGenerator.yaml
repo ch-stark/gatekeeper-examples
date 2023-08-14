@@ -24,6 +24,7 @@ policies:
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
+    remediationAction: enforce
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
