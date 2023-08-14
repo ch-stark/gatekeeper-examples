@@ -1,46 +1,19 @@
+---
 apiVersion: policy.open-cluster-management.io/v1
 kind: PolicyGenerator
 metadata:
-  name: install-gatekeeper
-placementBindingDefaults:
-  name: gatekeeper-placement-binding
+  name: gk-policy-generator-depricatedapis
 policyDefaults:
-  namespace: policies
-  placement:
-    placementName: gatekeeper-placement
+  namespace: bry-tam-policies
   remediationAction: enforce
-  informGatekeeperPolicies: false 
-  severity: medium
-  ignorePending: true
+  consolidateManifests: false
+  policySets:
+    - gp-valid-apidepreication
+placementBindingDefaults:
+  name: "gp-valid-apidepreication-binding"
+
 policies:
-  - name: setupgitops
-    manifests:
-      - path: setupgitops 
-  - name: policy-install-gatekeeper
-    manifests:
-      - path: gatekeeperinstall
-    remediationAction: enforce
-  - name: policy-check-gatekeeper
-    manifests:
-      - path: gatekeeperchecks
-  - name: policy-gatekeeperlibrary
-    manifests:
-      - path: gatekeeperlibrary
-    dependencies:
-    - name: "policy-configure-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
-    - name: "policy-check-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
-  - name: policy-applyconstraints
-    manifests:
-      - path: gatekeeperconstraint
-    dependencies:
-    - name: "policy-check-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
-  - name: gp-valid-apideprecation
+  - name: gp-valid-apidepreication
     remediationAction: enforce
     dependencies:
       - name: "gatekeeper-operator"
@@ -77,5 +50,10 @@ policies:
           - name: gp-valid-apidepreication
             kind: ConfigurationPolicy
             compliance: "Compliant"
-   
-   
+
+
+policySets:
+  - name: gp-valid-apidepreication
+    placement:
+      placementName: "env-bound-placement"
+
