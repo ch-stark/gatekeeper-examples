@@ -16,6 +16,7 @@ policies:
   - name: setupgitops
     manifests:
       - path: setupgitops 
+    remediationAction: enforce
   - name: policy-install-gatekeeper
     manifests:
       - path: gatekeeperinstall
@@ -23,6 +24,7 @@ policies:
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
+    remediationAction: inform
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
@@ -40,6 +42,7 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    remediationAction: enforce
   - name: gp-valid-apideprecation
     remediationAction: enforce
     manifests:
