@@ -13,10 +13,6 @@ policyDefaults:
   severity: medium
   ignorePending: true
 policies:
-  - name: setupgitops
-    manifests:
-      - path: setupgitops 
-    remediationAction: enforce
   - name: policy-install-gatekeeper
     manifests:
       - path: gatekeeperinstall
