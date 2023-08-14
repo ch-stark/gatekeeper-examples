@@ -21,6 +21,9 @@ policies:
     manifests:
       - path: gatekeeperchecks
     remediationAction: inform
+  - name: policy-configure-gatekeeper
+    manifests:
+      - path: gatekeeperconfig
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
