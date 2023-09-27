@@ -21,10 +21,21 @@ policies:
     manifests:
       - path: gatekeeperchecks
     remediationAction: inform
+    dependencies:
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
     remediationAction: enforce
+    dependencies:
+    - name: "policy-configure-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
@@ -54,5 +65,9 @@ policies:
       - path: verify-deprecatedapi/verifydeprecatedapi-1.26.yml
       - path: verify-deprecatedapi/verifydeprecatedapi-1.27.yml
       - path: verify-deprecatedapi/verifydeprecatedapi-1.29.yml
+    dependencies:
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
    
    
