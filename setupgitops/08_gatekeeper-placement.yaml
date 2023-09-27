@@ -8,4 +8,4 @@ spec:
   - requiredClusterSelector:
       labelSelector:
         matchExpressions:
-          - {key: name, operator: In, values: ["gatekeepertest"]}
+          - {key: gatekeeper, operator: In, values: ["true"]}

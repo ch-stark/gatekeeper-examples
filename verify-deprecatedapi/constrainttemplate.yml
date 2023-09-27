@@ -1,7 +1,7 @@
 apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
-  name: verifydeprecatedapi
+  name: verifydeprecatedapi_custom
   annotations:
     metadata.gatekeeper.sh/title: "Verify deprecated APIs"
     metadata.gatekeeper.sh/version: 1.0.0
