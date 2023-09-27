@@ -47,6 +47,14 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     remediationAction: enforce 
+  - name: policy-extraconstraints
+    manifests:
+      - path: extracontraints
+    dependencies:
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
+    remediationAction: enforce
   - name: policy-applyconstraints
     manifests:
       - path: gatekeeperconstraint
