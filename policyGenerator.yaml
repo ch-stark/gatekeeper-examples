@@ -49,7 +49,7 @@ policies:
     remediationAction: enforce 
   - name: policy-extraconstraints
     manifests:
-      - path: extracontraints
+      - path: extracontrainttemplates
     dependencies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
