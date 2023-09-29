@@ -20,6 +20,7 @@ The following features are highlighted
 
 - Policy Templates, e.g. we check only Kubernetes Clusters with a certain version
 - Placement.  Gatekeeper-Files will be distributed to all Clusters with a Certain label
+  Gatekeeper Operator and Contraints will be installed on any ManagedCluster with label gatekeeper=true
 
 All configuration is done in a central file: 
 
