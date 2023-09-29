@@ -25,5 +25,6 @@ All configuration is done in a central file:
 
 https://github.com/stolostron/policy-generator-plugin/blob/main/docs/policygenerator-reference.yaml
 
+With informGatekeeperPolicies: true, the policy expander kicks in and wraps everything in ConfigurationPolicies. Otherwise it leaves it just as a Gatekeeper manifest.
 
 
