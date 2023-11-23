@@ -9,6 +9,8 @@ spec:
     - excludedNamespaces:
         - ansible-automation-platform
         - hive
+        - hypershift
+        - policies
         - kube-*
         - local-quay
         - multicluster-engine
