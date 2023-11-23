@@ -22,7 +22,7 @@ policies:
       - path: gatekeeperchecks
     remediationAction: inform
     dependencies:
-    - name: "policy-check-gatekeeper"
+    - name: "policy-install-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
   - name: policy-configure-gatekeeper
