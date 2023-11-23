@@ -9,6 +9,8 @@ policyDefaults:
   placement:
     placementName: gatekeeper-placement
   remediationAction: enforce
+  policySets:
+  - gatekeeper-policyset
   informGatekeeperPolicies: false 
   severity: medium
   ignorePending: true
