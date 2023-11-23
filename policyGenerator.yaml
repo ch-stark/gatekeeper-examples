@@ -30,9 +30,6 @@ policies:
       - path: gatekeeperconfig
     remediationAction: enforce
     dependencies:
-    - name: "policy-configure-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
@@ -40,9 +37,6 @@ policies:
     manifests:
       - path: gatekeeperlibrary
     dependencies:
-    - name: "policy-configure-gatekeeper"
-      compliance: "Compliant"
-      kind: "Policy"
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
