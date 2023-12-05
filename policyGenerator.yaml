@@ -72,5 +72,13 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+  - name: checkadmissionevents
+    remediationAction: enforce
+    manifests:
+      - path: checkadmissionevents
+    dependencies:
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
    
    
