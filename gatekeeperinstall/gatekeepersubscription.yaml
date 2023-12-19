@@ -24,6 +24,7 @@ spec:
     emitAuditEvents: Enabled
   validatingWebhook: Enabled
   mutatingWebhook: Enabled
+  log-mutations: Enabled
   webhook:
     replicas: 3
     logLevel: INFO
