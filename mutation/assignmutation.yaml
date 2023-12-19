@@ -5,6 +5,7 @@ metadata:
 spec:
   match:
     scope: Namespaced
+    name: *
     kinds:
     - apiGroups: ["*"]
       kinds: ["Pod"]
