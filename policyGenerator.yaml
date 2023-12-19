@@ -80,5 +80,13 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+  - name: mutation
+    remediationAction: enforce
+    manifests:
+      - path: mutation
+    dependencies:
+    - name: "policy-check-gatekeeper"
+      compliance: "Compliant"
+      kind: "Policy"
    
    
