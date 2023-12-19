@@ -5,10 +5,10 @@ metadata:
 spec:
   match:
     scope: Namespaced
-    name: remote
     kinds:
     - apiGroups: ["*"]
       kinds: ["Pod"]
+    namespaces: ["remote"]
   location: "metadata.annotations.owner"
   parameters:
     assign:
