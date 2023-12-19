@@ -14,6 +14,14 @@ policyDefaults:
   informGatekeeperPolicies: false 
   severity: medium
   ignorePending: true
+policySetDefaults:
+  # Optional. The placement configuration for the policy sets. This defaults to a placement configuration that matches
+  # all clusters. If a placement.name is not provided here for placement consolidation, it will fall back to
+  # policyDefaults.placement.name, if provided there. (See policyDefaults.placement for description.)
+  placement: 
+    placementName: gatekeeper-placement
+  # Optional. Whether to generate placement manifests for policy sets. This defaults to "true".
+  generatePolicySetPlacement: true  
 policies:
   - name: policy-install-gatekeeper
     manifests:
