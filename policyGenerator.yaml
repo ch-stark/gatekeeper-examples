@@ -50,7 +50,7 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
-      ignorePending: true
+    ignorePending: true
     remediationAction: enforce
   - name: policy-extraconstraints
     manifests:
