@@ -34,7 +34,7 @@ spec:
       command:
       - sh
       - -c
-      image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8:v2.8.0
+      image: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel8:v2.9.0
       name: policy-generator-install
       volumeMounts:
       - mountPath: /policy-generator
