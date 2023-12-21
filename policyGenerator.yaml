@@ -50,7 +50,8 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
-    remediationAction: enforce 
+    remediationAction: enforce
+    ignorePending: true
   - name: policy-extraconstraints
     manifests:
       - path: extracontrainttemplates
