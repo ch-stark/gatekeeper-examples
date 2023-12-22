@@ -6,11 +6,6 @@ webhooks:
   - admissionReviewVersions:
       - v1
       - v1beta1
-      service:
-        name: gatekeeper-webhook-service
-        namespace: openshift-gatekeeper-system
-        path: /v1/admit
-        port: 443
     failurePolicy: Ignore
     matchPolicy: Exact
     name: validation.gatekeeper.sh
@@ -55,11 +50,6 @@ webhooks:
   - admissionReviewVersions:
       - v1
       - v1beta1
-      service:
-        name: gatekeeper-webhook-service
-        namespace: openshift-gatekeeper-system
-        path: /v1/admitlabel
-        port: 443
     failurePolicy: Fail
     matchPolicy: Exact
     name: check-ignore-label.gatekeeper.sh
