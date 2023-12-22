@@ -1,0 +1,32 @@
+---
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: k8sdeleteprotection
+spec:
+  crd:
+    spec:
+      names:
+        kind: K8sDeleteProtection
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8sdeleteprotection
+
+        violation[{"msg": msg}] {
+          input.review.operation == "DELETE"
+          not input.review.object.metadata.annotations["protected"] == "no"
+          msg := "you must set the `protected` annotation to `no` before this resource can be deleted"
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sDeleteProtection
+metadata:
+  name: k8sdeleteprotection
+spec:
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
+  parameters:
+    annotations: ["protected"]
