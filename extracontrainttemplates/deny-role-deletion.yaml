@@ -9,19 +9,16 @@ spec:
       names:
         kind: DenyRoleDeletion
   targets:
-    - target:
-        kind: Role
+    - target: 
         rego: |
           package k8sdenyroledeletion
-
-          deny[{"msg": msg}] {
+          deny[msg] {
             input.kind == "Role"
             input.apiVersion == "rbac.authorization.k8s.io/v1"
             input.metadata.namespace == "testrole"
             input.operation == "DELETE"
             msg := "Deleting Roles in the 'testrole' namespace is not allowed."
           }
-
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: DenyRoleDeletion
