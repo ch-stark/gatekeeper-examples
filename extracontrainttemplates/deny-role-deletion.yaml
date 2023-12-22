@@ -21,15 +21,16 @@ spec:
             input.operation == "DELETE"
             msg := "Deleting Roles in the 'testrole' namespace is not allowed."
           }
+
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: DenyRoleDeletion
 metadata:
-  name: deny-role-deletion
+  name: deny-role-deletion  # Corrected to match ConstraintTemplate name
 spec:
   match:
     kinds:
-      - apiGroups: [""]
+      - apiGroups: ["rbac.authorization.k8s.io"]
         kinds: ["Role"]
   parameters:
     msg: "Deleting Roles in the 'testrole' namespace is not allowed."
