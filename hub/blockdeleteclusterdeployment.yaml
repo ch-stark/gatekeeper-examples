@@ -3,6 +3,7 @@ kind: ConstraintTemplate
 metadata:
   name: denyclusterdeploymentdelete
 spec:
+  enforcementAction: dryrun
   crd:
     spec:
       names:
