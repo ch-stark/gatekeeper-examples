@@ -97,5 +97,17 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+policySets:
+  - description: The Gatekeeper-Hub set applies several policies
+    name: gatekeeper-hub
+    placement:
+      placementPath: setupgitops/hub-placement.yaml
+  - description: The OpenShift Platform Plus policy set applies several policies
+      that install the OpenShift Platform Plus products using best practices
+      that allow them to work well together. This policy set is focused on 
+      the components that install to every managed cluster.
+    name: gatekeeper-policyset
+    placement:
+      placementName: gatekeeper-placement
    
    
