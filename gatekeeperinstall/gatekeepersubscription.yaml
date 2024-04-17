@@ -6,12 +6,12 @@ metadata:
   name: gatekeeper-operator-product
   namespace: openshift-operators
 spec:
-  channel: '3.11'
+  channel: 'stable'
   installPlanApproval: Automatic
   name: gatekeeper-operator-product
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: gatekeeper-operator-product.v3.11.1
+  startingCSV: gatekeeper-operator-product.v3.14.0
 ---
 apiVersion: operator.gatekeeper.sh/v1alpha1
 kind: Gatekeeper
