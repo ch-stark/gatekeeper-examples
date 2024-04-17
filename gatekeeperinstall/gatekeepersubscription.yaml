@@ -6,7 +6,7 @@ metadata:
   name: gatekeeper-operator-product
   namespace: openshift-operators
 spec:
-  channel: 'stable'
+  channel: '3.14'
   installPlanApproval: Automatic
   name: gatekeeper-operator-product
   source: redhat-operators
