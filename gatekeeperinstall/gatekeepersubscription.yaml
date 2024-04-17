@@ -25,6 +25,10 @@ spec:
   validatingWebhook: Enabled
   mutatingWebhook: Enabled
   webhook:
+    operations:
+    - CREATE
+    - UPDATE
+    - DELETE
     replicas: 3
     logLevel: INFO
     emitAdmissionEvents: Enabled
