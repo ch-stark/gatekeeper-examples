@@ -12,6 +12,7 @@ policyDefaults:
   policySets:
   - gatekeeper-policyset
   informGatekeeperPolicies: false 
+  pruneObjectBehavior: DeleteIfCreated
   severity: medium
   ignorePending: true
 policySetDefaults:
