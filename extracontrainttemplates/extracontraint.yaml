@@ -1,0 +1,15 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: PrivilegedUsers
+metadata:
+  name: egress-access-allowed-priv
+spec:
+  match:
+    kinds:
+    - apiGroups:
+      - ""
+      kinds:
+      - Namespace
+      - Project
+  parameters:
+    groups:
+    - fN-CLD-2VOS-A5-00
