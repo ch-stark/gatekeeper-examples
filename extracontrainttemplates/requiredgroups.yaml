@@ -1,32 +1,33 @@
 apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
-  name: requiredgroups
+  name: privilegedusers
 spec:
   crd:
     spec:
       names:
         kind: RequiredGroups
       validation:
+        legacySchema: true
         openAPIV3Schema:
-          type: object
           properties:
-            requiredGroups:
+            groups:
+              items: string
               type: array
-              items:
-                type: string
+            users:
+              items: string
+              type: array
   targets:
-    - target: admission.k8s.gatekeeper.sh
-      rego: |
-        package k8srequiredlabels
-
-        required_groups := { group | group := input.parameters.requiredGroups[_] }
-
-        violation[{"msg": msg}] {
-          user_groups := { group | group := input.review.userInfo.groups[_] }
-          count(required_groups - user_groups) != 0
-          msg := sprintf("the following groups are required for this action: %v", [required_groups])
-        }
+  - rego: "package privilegedusers\n\nuser_authorized(user, userlist) {\n   some i\n
+      \  userlist[i] == user\n}\n\ngroup_authorized(group, grouplist) {\n   some i\n
+      \  group[i] == grouplist[_]\n}\n\nviolation[{\"msg\": msg, \"details\": {}}]
+      {\n   \n   operation := input.review.operation \n   operation == \"DELETE\"\n\n
+      \  grouplist := input.parameters.groups\n   group := input.review.userInfo.groups\n
+      \  not group_authorized(group, grouplist)\n\n   userlist := input.parameters.users
+      \n   user := input.review.userInfo.username\n   not user_authorized(user, userlist)\n\n
+      \  msg := sprintf(\"\\n\\nDENIED. Only the following users(%v) and members of
+      groups(%v) can perform the action.\\n\", [userlist, grouplist])\n   }\n"
+    target: admission.k8s.gatekeeper.sh
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: RequiredGroups
