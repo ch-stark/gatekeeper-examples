@@ -34,15 +34,15 @@ metadata:
   name: required-cluster-admin
 spec:
   match:
-kinds:
-  - apiGroups:
-    - ""
     kinds:
-    - Namespace
-  - apiGroups:
-    - "project.openshift.io"
-    kinds:
-    - Project
+    - apiGroups:
+      - ""
+      kinds:
+      - Namespace
+    - apiGroups:
+      - "project.openshift.io"
+      kinds:
+      - Project
   parameters:
     requiredGroups: ["system:cluster-admins"]
   enforcementAction: deny
