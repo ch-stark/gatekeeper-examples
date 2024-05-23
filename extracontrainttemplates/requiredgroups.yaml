@@ -32,7 +32,7 @@ spec:
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: RequiredGroups
 metadata:
-  name: required-cluster-admin
+  name: requiredgroups
 spec:
   match:
     kinds:
