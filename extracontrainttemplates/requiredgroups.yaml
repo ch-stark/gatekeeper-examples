@@ -44,5 +44,5 @@ spec:
       kinds:
       - Project
   parameters:
-    requiredGroups: ["demo"]
+    requiredGroups: ["developers"]
   enforcementAction: deny
