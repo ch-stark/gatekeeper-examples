@@ -2,7 +2,7 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: k8sdeleteprotections
+  name: k8sdeleteprotection
 spec:
   crd:
     spec:
