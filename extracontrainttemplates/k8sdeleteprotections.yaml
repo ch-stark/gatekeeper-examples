@@ -25,15 +25,15 @@ metadata:
   name: k8sdeleteprotection
 spec:
   match:
-kinds:
-  - apiGroups:
-    - ""
-    kinds:
-    - Namespace
-  - apiGroups:
-    - "project.openshift.io"
-    kinds:
-    - Project
+   kinds:
+   - apiGroups:
+     - ""
+     kinds:
+     - Namespace
+   - apiGroups:
+     - "project.openshift.io"
+     kinds:
+     - Project
   parameters:
     annotations: ["protected"]
  
