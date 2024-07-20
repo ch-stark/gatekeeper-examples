@@ -121,16 +121,16 @@ policies:
       kind: "Policy"
     policySets:
     - gatekeeper-policyset  
-  - name: hubblockdeletecluster
+  - name: hubconstrainttemplates
     remediationAction: enforce
     manifests:
-      - path: hub/blockdeleteclusterdeployment.yaml
+      - path: hub/templates
     policySets:
     - gatekeeper-hub 
-  - name: observedelete
+  - name: hubconstraints
     remediationAction: enforce
     manifests:
-      - path: hub/observedelete.yaml
+      - path: hub/constraints
     policySets:
     - gatekeeper-hub       
 policySets:
