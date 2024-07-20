@@ -22,7 +22,7 @@ spec:
     replicas: 1
     logLevel: INFO
     emitAuditEvents: Enabled
-  validatingWebhook: Enables
+  validatingWebhook: Enabled
   mutatingWebhook: Enabled
   webhook:
     operations:
