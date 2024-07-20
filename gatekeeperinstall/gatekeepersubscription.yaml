@@ -22,12 +22,13 @@ spec:
     replicas: 1
     logLevel: INFO
     emitAuditEvents: Enabled
-  validatingWebhook: Disabled
+  validatingWebhook: Enables
   mutatingWebhook: Enabled
   webhook:
     operations:
     - CREATE
     - UPDATE
+    - DELETE
     replicas: 3
     logLevel: INFO
     emitAdmissionEvents: Enabled
