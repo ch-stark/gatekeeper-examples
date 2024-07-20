@@ -15,3 +15,8 @@ spec:
   clusterResourceWhitelist:
   - group: '*'
     kind: '*'
+  rbac:
+    defaultPolicy: ""
+    policy: |
+      g, system:cluster-admins, role:admin        <----------[Here, group `system:cluster-admins` has `role:admin`]
+    scopes: '[groups]'  
