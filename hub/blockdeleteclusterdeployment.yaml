@@ -3,11 +3,13 @@ kind: ConstraintTemplate
 metadata:
   name: denyclusterdeploymentdelete
 spec:
-  enforcementAction: dryrun
   crd:
     spec:
       names:
         kind: DenyClusterDeploymentDelete
+        listKind: DenyClusterDeploymentDeleteList
+        plural: denyclusterdeploymentdeletes
+        singular: denyclusterdeploymentdelete
       validation:
         openAPIV3Schema:
           properties:
@@ -36,6 +38,7 @@ kind: DenyClusterDeploymentDelete
 metadata:
   name: denyclusterdeploymentdel
 spec:
+  enforcementAction: dryrun
   parameters:
     clusterRole: "superadmin"
     denyDelete: true
