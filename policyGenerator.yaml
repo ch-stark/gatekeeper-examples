@@ -109,7 +109,8 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     policySets:
-    - gatekeeper-policyset        
+    - gatekeeper-policyset  
+    - gatekeeper-hub
   - name: mutation
     remediationAction: enforce
     manifests:
