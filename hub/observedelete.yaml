@@ -1,0 +1,32 @@
+---
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: observedelete
+spec:
+  crd:
+    spec:
+      names:
+        kind: ObserveDelete
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package observedelete
+
+        violation[{"msg": msg}] {
+          user := input.review.userInfo.username
+          op := input.review.operation
+          op == "DELETE"
+          msg := sprintf("This user tried to delete %v, operation: %v", [user, op])
+        }
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: ObserveDelete
+metadata:
+  name: ob-delete-ns
+spec:
+  enforcementAction: warn
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
