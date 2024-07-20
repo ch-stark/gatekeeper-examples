@@ -101,9 +101,15 @@ policies:
   - name: hubblockdeletecluster
     remediationAction: enforce
     manifests:
-      - path: hub
+      - path: hub/blockdeleteclusterdeployment.yaml
     policySets:
-    - gatekeeper-hub      
+    - gatekeeper-hub 
+  - name: observedelete
+    remediationAction: enforce
+    manifests:
+      - path: hub/observedelete.yaml
+    policySets:
+    - gatekeeper-hub       
 policySets:
   - description: The Gatekeeper-Hub set applies several policies
     name: gatekeeper-hub
