@@ -22,6 +22,19 @@ spec:
               constraint_name: {{ $constrnt.metadata.name }}
               event_type: violation
         {{- end }}
+      {{- range $constrnt :=  (lookup "constraints.gatekeeper.sh/v1beta1" $ctemp.spec.crd.spec.names.kind "" "").items }}
+      - complianceType: mustnothave
+        objectDefinition:
+          apiVersion: v1
+          kind: Event
+          metadata:
+            namespace: openshift-gatekeeper-system
+            annotations:
+              constraint_action: warn
+              constraint_kind: {{ $constrnt.kind }}
+              constraint_name: {{ $constrnt.metadata.name }}
+              event_type: violation
+        {{- end }}        
       {{- end }}
     
 
