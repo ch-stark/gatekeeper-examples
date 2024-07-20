@@ -11,6 +11,7 @@ policyDefaults:
   remediationAction: enforce
   policySets:
   - gatekeeper-policyset
+  - gatekeeper-hub
   informGatekeeperPolicies: false 
   pruneObjectBehavior: DeleteIfCreated
   severity: medium
@@ -28,6 +29,8 @@ policies:
     manifests:
       - path: gatekeeperinstall
     remediationAction: enforce
+    policySets:
+    - gatekeeper-policyset      
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
@@ -36,6 +39,8 @@ policies:
     - name: "policy-install-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    policySets:
+    - gatekeeper-policyset        
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
@@ -44,6 +49,8 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    policySets:
+    - gatekeeper-policyset        
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
@@ -53,6 +60,8 @@ policies:
       kind: "Policy"
     ignorePending: true
     remediationAction: enforce
+    policySets:
+    - gatekeeper-policyset      
   - name: policy-extraconstraints
     manifests:
       - path: extracontrainttemplates
@@ -61,6 +70,8 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     remediationAction: enforce
+    policySets:
+    - gatekeeper-policyset      
   - name: policy-applyconstraints
     manifests:
       - path: gatekeeperconstraint
@@ -69,6 +80,8 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     remediationAction: enforce
+    policySets:
+    - gatekeeper-policyset      
   - name: gp-valid-apideprecation
     remediationAction: enforce
     manifests:
@@ -82,6 +95,8 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    policySets:
+    - gatekeeper-policyset        
   - name: checkadmissionevents
     remediationAction: enforce
     manifests:
@@ -90,6 +105,8 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    policySets:
+    - gatekeeper-policyset        
   - name: mutation
     remediationAction: enforce
     manifests:
@@ -98,6 +115,8 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
+    policySets:
+    - gatekeeper-policyset  
   - name: hubblockdeletecluster
     remediationAction: enforce
     manifests:
