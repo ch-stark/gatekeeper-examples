@@ -24,7 +24,7 @@ spec:
           msg := sprintf("This user tried to delete %v, operation: %v", [user, op])
         }
 ---
-apiVersion: constraints.gatekeeper.sh/v1beta1
+apiVersion: constraints.gatekeeper.sh/v1
 kind: observedelete
 metadata:
   name: obdeletens
