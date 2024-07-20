@@ -34,7 +34,7 @@ spec:
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: DenyClusterDeploymentDelete
 metadata:
-  name: denyclusterdeploymentdelete
+  name: denyclusterdeploymentdel
 spec:
   parameters:
     clusterRole: "superadmin"
