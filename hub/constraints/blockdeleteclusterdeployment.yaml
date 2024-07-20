@@ -1,6 +1,6 @@
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: denyclusterdeploymentdelete 
+kind: DenyClusterDeploymentDelete 
 metadata:
   name: denyclusterdeploymentdel
 spec:
