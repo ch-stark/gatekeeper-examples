@@ -25,7 +25,7 @@ spec:
         }
 ---
 apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: ObserveDelete
+kind: observedelete
 metadata:
   name: obdeletens
 spec:
