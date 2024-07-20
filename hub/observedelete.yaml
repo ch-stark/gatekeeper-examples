@@ -8,6 +8,10 @@ spec:
     spec:
       names:
         kind: ObserveDelete
+        listKind: ObserveDeleteList
+        plural: observedeltes
+        singular: observedelte
+      scope: Namespaced
   targets:
     - target: admission.k8s.gatekeeper.sh
       rego: |
