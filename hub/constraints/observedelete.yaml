@@ -1,0 +1,11 @@
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: ObserveDelete
+metadata:
+  name: obdeletens
+spec:
+  enforcementAction: warn
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Namespace"]
