@@ -98,7 +98,7 @@ policies:
     - name: "policy-check-gatekeeper"
       compliance: "Compliant"
       kind: "Policy"
-  - name: hub
+  - name: hubblockdeletecluster
     remediationAction: enforce
     manifests:
       - path: hub
