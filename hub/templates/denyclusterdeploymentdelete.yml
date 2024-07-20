@@ -1,0 +1,35 @@
+---
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: denyclusterdeploymentdelete
+spec:
+  crd:
+    spec:
+      names:
+        kind: DenyClusterDeploymentDelete
+        listKind: DenyClusterDeploymentDeleteList
+        plural: denyclusterdeploymentdeletes
+        singular: denyclusterdeploymentdelete
+      validation:
+        openAPIV3Schema:
+          properties:
+            parameters:
+              properties:
+                clusterRole:
+                  type: string
+                denyDelete:
+                  type: boolean
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package denyclusterdeploymentdelete
+
+        violation[{"msg": msg}] {
+          input.request.operation == "DELETE"
+          input.request.kind.kind == "ClusterDeployment"
+          input.parameters.clusterRole == "superadmin"
+          input.parameters.denyDelete
+          msg := "Deleting ClusterDeployments is not allowed unless user/group is a member of the 'superadmin' cluster role"
+        }
+
