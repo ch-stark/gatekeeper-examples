@@ -28,7 +28,6 @@ spec:
     operations:
     - CREATE
     - UPDATE
-    - DELETE
     replicas: 3
     logLevel: INFO
     emitAdmissionEvents: Enabled
