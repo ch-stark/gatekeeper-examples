@@ -30,7 +30,8 @@ policies:
       - path: gatekeeperinstall
     remediationAction: enforce
     policySets:
-    - gatekeeper-policyset      
+    - gatekeeper-policyset  
+    - gatekeeper-hub
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
@@ -40,7 +41,8 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     policySets:
-    - gatekeeper-policyset        
+    - gatekeeper-policyset  
+    - gatekeeper-hub
   - name: policy-configure-gatekeeper
     manifests:
       - path: gatekeeperconfig
@@ -50,7 +52,8 @@ policies:
       compliance: "Compliant"
       kind: "Policy"
     policySets:
-    - gatekeeper-policyset        
+    - gatekeeper-policyset  
+    - gatekeeper-hub
   - name: policy-gatekeeperlibrary
     manifests:
       - path: gatekeeperlibrary
@@ -61,7 +64,7 @@ policies:
     ignorePending: true
     remediationAction: enforce
     policySets:
-    - gatekeeper-policyset      
+    - gatekeeper-policyset   
   - name: policy-extraconstraints
     manifests:
       - path: extracontrainttemplates
@@ -71,7 +74,7 @@ policies:
       kind: "Policy"
     remediationAction: enforce
     policySets:
-    - gatekeeper-policyset      
+    - gatekeeper-policyset  
   - name: policy-applyconstraints
     manifests:
       - path: gatekeeperconstraint
