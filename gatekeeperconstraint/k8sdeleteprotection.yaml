@@ -1,0 +1,19 @@
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: K8sDeleteProtection
+metadata:
+  name: k8sdeleteprotections
+spec:
+  match:
+   kinds:
+   - apiGroups:
+     - ""
+     kinds:
+     - Namespace
+   - apiGroups:
+     - "project.openshift.io"
+     kinds:
+     - Project
+  parameters:
+    annotations: ["protected"]
+ 
