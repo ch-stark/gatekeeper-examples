@@ -18,22 +18,4 @@ spec:
           not input.review.object.metadata.annotations["protected"] == "no"
           msg := "you must set the `protected` annotation to `no` before this resource can be deleted"
         }
----
-apiVersion: constraints.gatekeeper.sh/v1beta1
-kind: K8sDeleteProtection
-metadata:
-  name: k8sdeleteprotections
-spec:
-  match:
-   kinds:
-   - apiGroups:
-     - ""
-     kinds:
-     - Namespace
-   - apiGroups:
-     - "project.openshift.io"
-     kinds:
-     - Project
-  parameters:
-    annotations: ["protected"]
- 
+
