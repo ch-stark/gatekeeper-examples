@@ -24,36 +24,25 @@ spec:
       rego: |
         package virtualmachineaccess
 
+        # Ensure that every VirtualMachine has a valid 'environment' label
         violation[{"msg": msg}] {
           input.review.kind.kind == "VirtualMachine"
 
-          # Extract labels and user groups
           labels := input.review.object.metadata.labels
-          groups := input.review.userInfo.groups
-
-          # Ensure the environment label exists
           not labels.environment
           msg := "VirtualMachine resource must have an 'environment' label."
         }
 
+        # Ensure access is allowed for the requesting user's group
         violation[{"msg": msg}] {
           input.review.kind.kind == "VirtualMachine"
 
-          # Extract labels and user groups
+          # Extract the 'environment' label and user groups
           environment := input.review.object.metadata.labels.environment
           groups := input.review.userInfo.groups
 
-          # Check if a valid binding exists
-          some i
-          binding := input.parameters.allowedBindings[i]
-          binding.label == environment
-          binding.group in groups
-
-          # If no valid binding exists, raise a violation
-          not some i {
-            binding := input.parameters.allowedBindings[i]
-            binding.label == environment
-            binding.group in groups
-          }
-          msg := sprintf("Access denied: group '%v' cannot access environment '%v'", [groups, environment])
-        }
+          # Check if at least one allowed binding matches
+          allowed := [binding |
+            binding := input.parameters.allowedBindings[_];
+            binding.label == environment;
+            binding
