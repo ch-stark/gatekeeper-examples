@@ -43,9 +43,17 @@ spec:
           environment := input.review.object.metadata.labels.environment
           groups := input.review.userInfo.groups
 
-          # Check if any binding matches the environment and group
-          allowed := {b | b := input.parameters.allowedBindings[_]; b.label == environment; b.group in groups}
+          # Check if a valid binding exists
+          some i
+          binding := input.parameters.allowedBindings[i]
+          binding.label == environment
+          binding.group in groups
 
-          count(allowed) == 0
+          # If no valid binding exists, raise a violation
+          not some i {
+            binding := input.parameters.allowedBindings[i]
+            binding.label == environment
+            binding.group in groups
+          }
           msg := sprintf("Access denied: group '%v' cannot access environment '%v'", [groups, environment])
         }
