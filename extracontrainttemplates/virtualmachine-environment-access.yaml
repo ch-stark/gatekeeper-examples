@@ -1,0 +1,11 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: VirtualMachineAccess
+metadata:
+  name: virtualmachine-environment-access
+spec:
+  parameters:
+    allowedBindings:
+      - label: production
+        group: vmadmin
+      - label: dev
+        group: vmdev
