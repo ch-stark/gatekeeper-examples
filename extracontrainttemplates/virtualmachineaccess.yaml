@@ -8,7 +8,6 @@ spec:
       names:
         kind: VirtualMachineAccess
       validation:
-        # Schema for the constraint parameters
         openAPIV3Schema:
           properties:
             allowedBindings:
@@ -25,24 +24,28 @@ spec:
       rego: |
         package virtualmachineaccess
 
-        # Input for validating VirtualMachine resources
         violation[{"msg": msg}] {
           input.review.kind.kind == "VirtualMachine"
 
-          # Fetch labels and groups from input
+          # Extract labels and user groups
           labels := input.review.object.metadata.labels
-          group := input.review.userInfo.groups
+          groups := input.review.userInfo.groups
 
-          # Ensure labels include "environment"
-          environment := labels.environment
+          # Ensure the environment label exists
+          not labels.environment
+          msg := "VirtualMachine resource must have an 'environment' label."
+        }
 
-          # Match label and group against allowedBindings
-          allowed := {b | some b; b := input.parameters.allowedBindings[_]}
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "VirtualMachine"
 
-          not allowed[_].label == environment {
-            msg := sprintf("Access denied: environment '%v' is not allowed for group '%v'", [environment, group])
-          }
-          not allowed[_].group in group {
-            msg := sprintf("Access denied: group '%v' does not match permissions for environment '%v'", [group, environment])
-          }
+          # Extract labels and user groups
+          environment := input.review.object.metadata.labels.environment
+          groups := input.review.userInfo.groups
+
+          # Check if any binding matches the environment and group
+          allowed := {b | b := input.parameters.allowedBindings[_]; b.label == environment; b.group in groups}
+
+          count(allowed) == 0
+          msg := sprintf("Access denied: group '%v' cannot access environment '%v'", [groups, environment])
         }
