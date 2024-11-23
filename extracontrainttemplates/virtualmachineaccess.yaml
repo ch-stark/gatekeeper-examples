@@ -1,0 +1,48 @@
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+  name: virtualmachineaccess
+spec:
+  crd:
+    spec:
+      names:
+        kind: VirtualMachineAccess
+      validation:
+        # Schema for the constraint parameters
+        openAPIV3Schema:
+          properties:
+            allowedBindings:
+              type: array
+              items:
+                type: object
+                properties:
+                  label:
+                    type: string
+                  group:
+                    type: string
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package virtualmachineaccess
+
+        # Input for validating VirtualMachine resources
+        violation[{"msg": msg}] {
+          input.review.kind.kind == "VirtualMachine"
+
+          # Fetch labels and groups from input
+          labels := input.review.object.metadata.labels
+          group := input.review.userInfo.groups
+
+          # Ensure labels include "environment"
+          environment := labels.environment
+
+          # Match label and group against allowedBindings
+          allowed := {b | some b; b := input.parameters.allowedBindings[_]}
+
+          not allowed[_].label == environment {
+            msg := sprintf("Access denied: environment '%v' is not allowed for group '%v'", [environment, group])
+          }
+          not allowed[_].group in group {
+            msg := sprintf("Access denied: group '%v' does not match permissions for environment '%v'", [group, environment])
+          }
+        }
