@@ -1,57 +1,32 @@
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
-  name: virtualmachineaccess
+  name: virtualmachine-access-control
 spec:
   crd:
     spec:
-      names:
-        kind: VirtualMachineAccess
-      validation:
-        openAPIV3Schema:
-          properties:
-            allowedBindings:
-              type: array
-              items:
-                type: object
-                properties:
-                  label:
-                    type: string
-                  group:
-                    type: string
+      # No custom CRD needed for this constraint
   targets:
   - target: admission.k8s.gatekeeper.sh
-    rego: |
-      package virtualmachineaccess
+  rego: |
+    package virtualmachine_access_control
 
-      # Ensure that every VirtualMachine has a valid 'environment' label
-      violation[{"msg": msg}] {
-        input.review.kind.kind == "VirtualMachine"
+    # Ensure every VirtualMachine has an 'environment' label
+    violation[{"msg": msg}] {
+      input.review.kind.kind == "VirtualMachine"
+      not input.review.object.metadata.labels.environment
+      msg := "VirtualMachine must have an 'environment' label"
+    }
 
-        labels := input.review.object.metadata.labels
-        not labels.environment
-        msg := "VirtualMachine resource must have an 'environment' label."
-      }
+    # Ensure access is allowed based on environment and user groups
+    violation[{"msg": msg}] {
+      input.review.kind.kind == "VirtualMachine"
+      environment := input.review.object.metadata.labels.environment
+      user_groups := input.review.userInfo.groups
 
-      # Ensure access is allowed for the requesting user's group
-      violation[{"msg": msg}] {
-        input.review.kind.kind == "VirtualMachine"
+      # Check for dev environment and dev group
+      environment == "dev" && not any ug in user_groups { ug == "dev-group" } => msg := "Access denied: Only dev-group can access dev environments"
 
-        # Extract the 'environment' label from the resource
-        environment := input.review.object.metadata.labels.environment
-
-        # Extract user groups
-        user_groups := input.review.userInfo.groups
-
-        # Check if at least one allowed binding matches the environment and user group
-        not any_allowed_binding_matches(environment, user_groups)
-        msg := sprintf("Access denied. No matching binding for environment '%s' and user groups '%s'.", [environment, user_groups])
-      }
-
-      # Helper function: checks if any binding matches the given environment and user groups
-      any_allowed_binding_matches(environment, user_groups) {
-        some i
-        binding := input.parameters.allowedBindings[i]
-        binding.label == environment
-        some ug { ug := user_groups[_] ; ug == binding.group }  # Check if any user group matches the binding.group
-      }
+      # Check for prod environment and prod group
+      environment == "prod" && not any ug in user_groups { ug == "prod-group" } => msg := "Access denied: Only prod-group can access prod environments"
+    }
