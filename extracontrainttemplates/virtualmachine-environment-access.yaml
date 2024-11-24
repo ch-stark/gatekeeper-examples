@@ -5,7 +5,7 @@ metadata:
 spec:
   environment: dev
   allowedGroups:
-    - dev-group
+    - developer
 ---
 apiVersion: gatekeeper.sh/v1alpha1
 kind: VirtualMachineAccess
