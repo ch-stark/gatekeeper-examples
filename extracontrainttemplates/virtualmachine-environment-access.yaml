@@ -3,15 +3,17 @@ kind: VirtualMachineAccess
 metadata:
   name: dev-access
 spec:
-  environment: dev
-  allowedGroups:
-    - developer
+  parameters:
+    environment: dev
+    allowedGroups:
+      - dev-group
 ---
 apiVersion: gatekeeper.sh/v1alpha1
 kind: VirtualMachineAccess
 metadata:
   name: prod-access
 spec:
-  environment: prod
-  allowedGroups:
-    - prod-group 
+  parameters:
+    environment: prod
+    allowedGroups:
+      - prod-group
