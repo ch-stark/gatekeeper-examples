@@ -24,15 +24,6 @@ spec:
     rego: |
       package virtualmachineaccess
 
-      # Ensure that every VirtualMachine has a valid 'environment' label
-      violation[{"msg": msg}] {
-        input.review.kind.kind == "VirtualMachine"
-
-        labels := input.review.object.metadata.labels
-        not labels.environment
-        msg := "VirtualMachine resource must have an 'environment' label."
-      }
-
       # Ensure access is allowed for the requesting user's group
       violation[{"msg": msg}] {
         input.review.kind.kind == "VirtualMachine"
