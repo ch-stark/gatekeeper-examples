@@ -53,5 +53,5 @@ spec:
         some i
         binding := input.parameters.allowedBindings[i]
         binding.label == environment
-        binding.group == any ug { ug := user_groups[_] }  # Use equality check for group matching
+        some ug { ug := user_groups[_] ; ug == binding.group }  # Check if any user group matches the binding.group
       }
