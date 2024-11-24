@@ -21,37 +21,37 @@ spec:
                     type: string
   targets:
   - target: admission.k8s.gatekeeper.sh
-  rego: |
-    package virtualmachineaccess
+    rego: |
+      package virtualmachineaccess
 
-    # Ensure that every VirtualMachine has a valid 'environment' label
-    violation[{"msg": msg}] {
-      input.review.kind.kind == "VirtualMachine"
+      # Ensure that every VirtualMachine has a valid 'environment' label
+      violation[{"msg": msg}] {
+        input.review.kind.kind == "VirtualMachine"
 
-      labels := input.review.object.metadata.labels
-      not labels.environment
-      msg := "VirtualMachine resource must have an 'environment' label."
-    }
+        labels := input.review.object.metadata.labels
+        not labels.environment
+        msg := "VirtualMachine resource must have an 'environment' label."
+      }
 
-    # Ensure access is allowed for the requesting user's group
-    violation[{"msg": msg}] {
-      input.review.kind.kind == "VirtualMachine"
+      # Ensure access is allowed for the requesting user's group
+      violation[{"msg": msg}] {
+        input.review.kind.kind == "VirtualMachine"
 
-      # Extract the 'environment' label from the resource
-      environment := input.review.object.metadata.labels.environment
+        # Extract the 'environment' label from the resource
+        environment := input.review.object.metadata.labels.environment
 
-      # Extract user groups
-      user_groups := input.review.userInfo.groups
+        # Extract user groups
+        user_groups := input.review.userInfo.groups
 
-      # Check if at least one allowed binding matches the environment and user group
-      not any_allowed_binding_matches(environment, user_groups)
-      msg := sprintf("Access denied. No matching binding for environment '%s' and user groups '%s'.", [environment, user_groups])
-    }
+        # Check if at least one allowed binding matches the environment and user group
+        not any_allowed_binding_matches(environment, user_groups)
+        msg := sprintf("Access denied. No matching binding for environment '%s' and user groups '%s'.", [environment, user_groups])
+      }
 
-    # Helper function: checks if any binding matches the given environment and user groups
-    any_allowed_binding_matches(environment, user_groups) {
-      some i
-      binding := input.parameters.allowedBindings[i]
-      binding.label == environment
-      binding.group == any ug { ug := user_groups[_] }  # Use equality check for group matching
-    }
+      # Helper function: checks if any binding matches the given environment and user groups
+      any_allowed_binding_matches(environment, user_groups) {
+        some i
+        binding := input.parameters.allowedBindings[i]
+        binding.label == environment
+        binding.group in user_groups  # Use 'in' to check group membership
+      }
