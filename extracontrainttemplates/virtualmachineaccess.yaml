@@ -5,7 +5,8 @@ metadata:
 spec:
   crd:
     spec:
-      # No custom CRD needed for this constraint
+      names:
+        kind: VirtualMachineAccess
   targets:
   - target: admission.k8s.gatekeeper.sh
   rego: |
