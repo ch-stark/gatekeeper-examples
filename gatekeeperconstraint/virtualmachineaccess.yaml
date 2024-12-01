@@ -1,7 +1,8 @@
+---
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: ValidateUserInfo
 metadata:
-  name: ns-must-have-gk
+  name: validatevm
 spec:
   match:
     kinds:
