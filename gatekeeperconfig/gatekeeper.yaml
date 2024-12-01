@@ -20,7 +20,6 @@ spec:
         - openshift-*
         - rhacs-operator
         - stackrox
-        - remote
       processes:
         - '*'
 
