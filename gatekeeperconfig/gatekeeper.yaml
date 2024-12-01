@@ -9,6 +9,7 @@ spec:
     - excludedNamespaces:
         - ansible-automation-platform
         - hive
+        - hostpath-provisioner
         - hypershift
         - policies
         - kube-*
