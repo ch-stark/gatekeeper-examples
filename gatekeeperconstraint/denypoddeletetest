@@ -1,0 +1,9 @@
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: DenyPodDeleteNamespace
+metadata:
+  name: denypoddeletetestrole
+spec:
+  parameters:
+    namespace: "testrole"
+    denyDelete: true
