@@ -30,7 +30,3 @@ spec:
           input.parameters.denyDelete
           msg := sprintf("Deleting Pods in namespace %v is not allowed", [input.parameters.namespace])
         }
-
-
-    namespace: "testrole"
-    denyDelete: true
