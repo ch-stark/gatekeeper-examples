@@ -11,7 +11,7 @@ spec:
   name: gatekeeper-operator-product
   source: redhat-operators
   sourceNamespace: openshift-marketplace
-  startingCSV: gatekeeper-operator-product.v3.17.1
+  startingCSV: gatekeeper-operator-product.v3.17.0
 ---
 apiVersion: operator.gatekeeper.sh/v1alpha1
 kind: Gatekeeper
