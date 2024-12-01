@@ -1,34 +1,51 @@
-apiVersion: templates.gatekeeper.sh/v1beta1
+apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
-  name: virtualmachineaccess
+  name: validateuserinfo
 spec:
   crd:
     spec:
       names:
-        kind: VirtualMachineAccess
+        kind: ValidateUserInfo
+      validation:
+        openAPIV3Schema:
+          type: object
+          properties:
+            requiredGroupDev:
+              type: array
+              items:
+                type: string
+            requiredGroupProd:
+              type: array
+              items:
+                type: string
   targets:
-  - target: admission.k8s.gatekeeper.sh
-    rego: |
-      package virtualmachine_access_control
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package k8svalidateuserinfo
+        violation[{"msg": msg}] {
+          environment := input.review.object.metadata.labels.environment
+          environment == "dev"
 
-      # Ensure every VirtualMachine has an 'environment' label
-      violation[{"msg": msg}] {
-        input.review.kind.kind == "VirtualMachine"
-        not input.review.object.metadata.labels.environment
-        msg := "VirtualMachine must have an 'environment' label"
-      }
+          provided := {user_groups | user_groups := input.review.userInfo.groups[_]}
+          required := {group | group := input.parameters.requiredGroupDev[_]}
 
-      # Ensure access is allowed based on environment and user groups
-      violation[{"msg": msg}] {
-        input.review.kind.kind == "VirtualMachine"
-        environment := input.review.object.metadata.labels.environment
-        user_groups := input.review.userInfo.groups
+          missing := required - provided
 
-        allowed_env := input.parameters.environment
-        allowed_groups := input.parameters.allowedGroups
+          count(missing) > 0
+          msg := sprintf("you must provide labels: %v", [missing])
+        }
 
-        environment == allowed_env
-        not any(g in allowed_groups; g in user_groups)
-        msg := sprintf("Access denied: Only %s can access %s environments", [allowed_groups, allowed_env])
-      }
+
+        violation[{"msg": msg}] {
+          environment := input.review.object.metadata.labels.environment
+          environment == "prod"
+
+          provided := {user_groups | user_groups := input.review.userInfo.groups[_]}
+          required := {group | group := input.parameters.requiredGroupProd[_]}
+
+          missing := required - provided
+
+          count(missing) > 0
+          msg := sprintf("you must provide labels: %v", [missing])
+        }
