@@ -1,19 +1,12 @@
-apiVersion: gatekeeper.sh/v1alpha1
-kind: VirtualMachineAccess
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: ValidateUserInfo
 metadata:
-  name: dev-access
+  name: ns-must-have-gk
 spec:
+  match:
+    kinds:
+      - apiGroups: ["kubevirt.io"]
+        kinds: ["VirtualMachine"]
   parameters:
-    environment: dev
-    allowedGroups:
-      - dev-group
----
-apiVersion: gatekeeper.sh/v1alpha1
-kind: VirtualMachineAccess
-metadata:
-  name: prod-access
-spec:
-  parameters:
-    environment: prod
-    allowedGroups:
-      - prod-group
+    requiredGroupDev: ["dev-group"]
+    requiredGroupProd: ["prod-group"]
