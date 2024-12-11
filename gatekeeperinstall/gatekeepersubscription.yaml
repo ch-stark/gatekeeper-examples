@@ -1,17 +1,19 @@
-apiVersion: operators.coreos.com/v1alpha1
-kind: Subscription
+---
+apiVersion: policy.open-cluster-management.io/v1beta1
+kind: OperatorPolicy
 metadata:
-  labels:
-    operators.coreos.com/gatekeeper-operator-product.openshift-operators: ''
-  name: gatekeeper-operator-product
-  namespace: openshift-operators
+  name: operatorpolicy-gatekeeper-operator
 spec:
-  channel: '3.17'
-  installPlanApproval: Automatic
-  name: gatekeeper-operator-product
-  source: redhat-operators
-  sourceNamespace: openshift-marketplace
-  startingCSV: gatekeeper-operator-product.v3.17.0
+  remediationAction: inform
+  severity: high
+  complianceType: musthave
+  subscription:
+    name: gatekeeper-operator-product
+    namespace: openshift-operators
+    channel: stable
+    source: redhat-operators
+    sourceNamespace: openshift-marketplace
+  upgradeApproval: Automatic
 ---
 apiVersion: operator.gatekeeper.sh/v1alpha1
 kind: Gatekeeper
