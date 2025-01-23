@@ -35,7 +35,7 @@ policies:
   - name: policy-check-gatekeeper
     manifests:
       - path: gatekeeperchecks
-    remediationAction: inform
+    remediationAction: enforce
     dependencies:
     - name: "policy-install-gatekeeper"
       compliance: "Compliant"
