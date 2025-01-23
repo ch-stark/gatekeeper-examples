@@ -5,10 +5,10 @@ metadata:
 placementBindingDefaults:
   name: gatekeeper-placement-binding
 policyDefaults:
-  namespace: policies
+  namespace: demo-policies
   placement:
     placementName: gatekeeper-placement
-  remediationAction: enforce
+  remediationAction: inform
   policySets:
   - gatekeeper-policyset
   - gatekeeper-hub
