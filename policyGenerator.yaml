@@ -5,7 +5,7 @@ metadata:
 placementBindingDefaults:
   name: gatekeeper-placement-binding
 policyDefaults:
-  namespace: demo-policies
+  namespace: policies
   placement:
     placementName: gatekeeper-placement
   remediationAction: inform
