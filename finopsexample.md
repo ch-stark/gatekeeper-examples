@@ -35,6 +35,7 @@ spec:
           # Logic: If GPU > 0 and Label is missing
           to_number(gpu_request) > 0
           not input.review.object.metadata.labels["project-code"]
+```
 
 ### 3.2 Constraint (The Scope)
 We apply this to all production-grade AI namespaces.
@@ -53,6 +54,7 @@ spec:
     namespaces:
       - "ai-prod"
       - "llm-training"
+```
 
 ## 4. User Experience (UX)
 
