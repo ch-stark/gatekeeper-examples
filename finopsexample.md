@@ -3,14 +3,10 @@
 ## 1. Executive Summary
 With the rapid scaling of AI workloads on NVIDIA H100/H200 infrastructure, unallocated cloud spend has become a primary operational risk. This specification outlines the implementation of a **Gatekeeper Policy** to enforce "Cost-Aware Admission" across the OpenShift fleet.
 
----
-
 ## 2. Problem Statement
 - **Current State:** Developers can request high-cost GPU resources without providing billing attribution.
 - **Impact:** Financial "black holes" in monthly cloud reports and inability to perform accurate ROI analysis on AI models.
 - **Target Metric:** 100% of GPU-enabled workloads must have a valid `project-code` label.
-
----
 
 ## 3. Implementation Details
 
