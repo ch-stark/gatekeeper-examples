@@ -1,0 +1,26 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: denynaddeleteifattached
+spec:
+  crd:
+    spec:
+      names:
+        kind: DenyNADDeleteIfAttached
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package denynaddeleteifattached
+
+        violation[{"msg": msg}] {
+          input.review.operation == "DELETE"
+          nad_name := input.review.oldObject.metadata.name
+          ns := input.review.oldObject.metadata.namespace
+
+          vms := data.inventory.namespace[ns]["kubevirt.io/v1"]["VirtualMachine"]
+          vm := vms[_]
+          networks := vm.spec.template.spec.networks[_]
+          networks.multus.networkName == nad_name
+
+          msg := sprintf("NetworkAttachmentDefinition '%s' is attached to VirtualMachine '%s'. Detach it before deleting.", [nad_name, vm.metadata.name])
+        }

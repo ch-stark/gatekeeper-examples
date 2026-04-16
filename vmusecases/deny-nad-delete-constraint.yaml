@@ -1,0 +1,9 @@
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: DenyNADDeleteIfAttached
+metadata:
+  name: deny-nad-delete-if-attached
+spec:
+  match:
+    kinds:
+      - apiGroups: ["k8s.cni.cncf.io"]
+        kinds: ["NetworkAttachmentDefinition"]

@@ -1,0 +1,36 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: denypvcdeleteifattached
+spec:
+  crd:
+    spec:
+      names:
+        kind: DenyPVCDeleteIfAttached
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package denypvcdeleteifattached
+
+        violation[{"msg": msg}] {
+          input.review.operation == "DELETE"
+          pvc_name := input.review.oldObject.metadata.name
+          ns := input.review.oldObject.metadata.namespace
+
+          vms := data.inventory.namespace[ns]["kubevirt.io/v1"]["VirtualMachine"]
+          vm := vms[_]
+          volumes := vm.spec.template.spec.volumes[_]
+
+          # Check both persistentVolumeClaim and dataVolume references
+          pvc_match(volumes, pvc_name)
+
+          msg := sprintf("PVC '%s' is used by VirtualMachine '%s'. Detach it before deleting.", [pvc_name, vm.metadata.name])
+        }
+
+        pvc_match(volume, pvc_name) {
+          volume.persistentVolumeClaim.claimName == pvc_name
+        }
+
+        pvc_match(volume, pvc_name) {
+          volume.dataVolume.name == pvc_name
+        }

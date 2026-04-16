@@ -1,0 +1,26 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: denyinstancetypedeleteifref
+spec:
+  crd:
+    spec:
+      names:
+        kind: DenyInstancetypeDeleteIfReferenced
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package denyinstancetypedeleteifref
+
+        violation[{"msg": msg}] {
+          input.review.operation == "DELETE"
+          instancetype_name := input.review.oldObject.metadata.name
+
+          # VirtualMachineClusterInstancetype is cluster-scoped, so search all namespaces
+          vms := data.inventory.namespace[ns]["kubevirt.io/v1"]["VirtualMachine"]
+          vm := vms[_]
+          vm.spec.instancetype.name == instancetype_name
+          vm.spec.instancetype.kind == "VirtualMachineClusterInstancetype"
+
+          msg := sprintf("VirtualMachineClusterInstancetype '%s' is referenced by VirtualMachine '%s/%s'. Remove the reference before deleting.", [instancetype_name, ns, vm.metadata.name])
+        }
