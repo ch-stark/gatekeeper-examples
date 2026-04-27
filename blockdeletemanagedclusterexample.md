@@ -1,10 +1,13 @@
 To restrict the deletion of a `ManagedCluster` to only members of a specific group (like `super-admin`), you can inspect the user's identity directly within the Gatekeeper Rego logic.
 Whenever Kubernetes sends an API request to Gatekeeper's admission webhook, the request includes a `userInfo` object containing the `username`, `uid`, and the `groups` the user belongs to. We can use this data to create an exception to the deletion block.
+
 Here is the updated Gatekeeper architecture:
+
 1. The ConstraintTemplate (The Logic)
+
 This template evaluates the `DELETE` operation. It includes a helper rule (`is_super_admin`) that iterates through the user's groups. If the user is not in the `super-admin` group, the deletion triggers a violation.
 
-\```
+```yaml
 apiVersion: templates.gatekeeper.sh/v1beta1
 kind: ConstraintTemplate
 metadata:
@@ -31,12 +34,12 @@ spec:
           input.review.userInfo.groups[_] == "super-admin"
         }
 
-\```
+```
 
 2. The Constraint (The Target)
 The `Constraint` remains largely the same. It targets the `ManagedCluster` API group and sets the enforcement action to `deny`.
 
-\```
+```yaml
 apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sRestrictManagedClusterDelete
 metadata:
@@ -47,8 +50,7 @@ spec:
     kinds:
       - apiGroups: ["cluster.open-cluster-management.io"]
         kinds: ["ManagedCluster"]
-
-\```
+```
 
 How this works in practice
 
